@@ -11,7 +11,7 @@ var passport = require('passport');
 var flash = require('connect-flash');
 var validator = require('express-validator');
 var securityMiddleware = require('./middleware/security');
-
+var connectMongo = require('connect-mongo');
 //===================================================================
 //Require router
 //===============================================
@@ -43,7 +43,9 @@ app.use(flash());
 app.use(session({
   secret: "nguyenthanhtung", 
   resave: false, 
-  saveUninitialized: false
+  saveUninitialized: false,
+  store: connectMongo({ mongooseConnection: mongoose.connection }),
+  cookie: { maxAge: 180 * 60 * 1000 }//3h
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -56,6 +58,7 @@ app.use(express.static('public'));
 //=================================================================================
 app.use(function (req, res, next) {
     res.locals.currentUser = req.user;
+    res.locals.session = req.session;
     next();
 });
 app.use('/', index);
