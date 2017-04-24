@@ -1,1 +1,1 @@
-git remote add origin git@github.comgit@github.com:tung776/c9-cattuongshopping.git
+git remote add origin git@github.com:tung776/c9-cattuongshopping.git
