@@ -1,0 +1,17 @@
+#logo1 {
+    width: 100px;
+}
+#leftMenuNavbar {
+    margin-left: 30px;
+}
+.menubaritem:hover {
+    background-color:orange;
+}
+.price {
+    color: orange;
+    text-decoration: bold;
+}
+#SignupOrSignin {
+    width: 30%;
+    margin-left: 30%;
+}
