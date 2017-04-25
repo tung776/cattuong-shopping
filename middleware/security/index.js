@@ -12,7 +12,7 @@ middleware.isLoggedIn = function (req, res, next){
 middleware.getCurrentUserInfor = function (req, res, next) {
     
     res.locals.currentUser = req.user;
-    console.log("gohere" + res.locals.currentUser);
+    // console.log("gohere" + res.locals.currentUser);
     next();
 };
 

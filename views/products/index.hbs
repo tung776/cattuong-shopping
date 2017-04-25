@@ -1,5 +1,6 @@
 <div class="row">
 {{# each products }}
+  {{>message}}
   <div class="col-sm-6 col-md-4">
     <div class="thumbnail">
       <img src="{{this.imagePath}}" alt="{{this.title}}">
@@ -8,7 +9,7 @@
         <p>{{{this.description}}}</p>
         <p>
           <p class = "price pull-left">{{this.price}} VNĐ</p>
-          <a href="#" class="btn btn-success pull-right" role="button">Add to Shopping Cart</a>
+          <a href="/products/add-to-cart/{{this._id}}" class="btn btn-success pull-right" role="button">Add to Shopping Cart</a>
           </p>
       </div>
     </div>

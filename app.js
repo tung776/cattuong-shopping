@@ -45,7 +45,7 @@ app.use(session({
   resave: false, 
   saveUninitialized: false,
   store: new connectMongo({ mongooseConnection: mongoose.connection }),
-  cookie: { maxAge: 20 * 1000 }//180 phut x 60 giay x1000 mili giay = 3h
+  cookie: { maxAge: 24*60*60 * 1000 }//24 gio x 60 phut x 60 giay x1000 mili giay = 1 ngay
 }));
 app.use(passport.initialize());
 app.use(passport.session());
