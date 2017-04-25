@@ -18,9 +18,25 @@ https://github.com/expressjs/session#compatible-session-stores
 ========================================================================================
 
 Trong ứng dụng này chúng ta đang sử dụng mongo như là cơ sở dữ liệu. Nên connect-mongo là lựa chọn chính xác 
-https://www.npmjs.com/package/connect-mongodb
+https://www.npmjs.com/package/connect-mongo
+
+Trong file app.js bổ xung đoạn mã sau
+var connectMongo = require('connect-mongo')(session);
+
+app.use(session({
+  secret: "nguyenthanhtung", 
+  resave: false, 
+  saveUninitialized: false,
+  store: new connectMongo({ mongooseConnection: mongoose.connection }),
+  cookie: { maxAge: 20 * 1000 }//180 phut x 60 giay x1000 mili giay = 3h
+}));
 
 
+app.use(function (req, res, next) {
+    res.locals.currentUser = req.user;
+    res.locals.session = req.session;
+    next();
+});
 
 
 ================================================

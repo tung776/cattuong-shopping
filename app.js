@@ -11,19 +11,19 @@ var passport = require('passport');
 var flash = require('connect-flash');
 var validator = require('express-validator');
 var securityMiddleware = require('./middleware/security');
-var connectMongo = require('connect-mongo');
-//===================================================================
+var connectMongo = require('connect-mongo')(session);
+//===========================================================================================
 //Require router
-//===============================================
+//===========================================================================================
 var index = require('./routes/index');
 var productRouter = require('./routes/product');
 var userRouter = require('./routes/user');
 //===========================================================================================
 //database conect
 mongoose.connect('mongodb://localhost/cattuongShopping');
-//==============================================================
+//===========================================================================================
 //application config
-//============================================
+//===========================================================================================
 var app = express();
 //config passport
 
@@ -44,8 +44,8 @@ app.use(session({
   secret: "nguyenthanhtung", 
   resave: false, 
   saveUninitialized: false,
-  store: connectMongo({ mongooseConnection: mongoose.connection }),
-  cookie: { maxAge: 180 * 60 * 1000 }//3h
+  store: new connectMongo({ mongooseConnection: mongoose.connection }),
+  cookie: { maxAge: 20 * 1000 }//180 phut x 60 giay x1000 mili giay = 3h
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -55,7 +55,7 @@ app.use(express.static('public'));
 
 //=============================================================================================
 //routes
-//=================================================================================
+//=============================================================================================
 app.use(function (req, res, next) {
     res.locals.currentUser = req.user;
     res.locals.session = req.session;
