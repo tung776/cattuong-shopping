@@ -1,0 +1,54 @@
+<div class="row">
+    <div class="col-sm-8 col-md-6 col-md-offset-3 col-sm-offset-2">
+        <h1>Checkout</h1>
+        <h4>Your total: {{total}}</h4>
+        {{>message}}
+        <form id = "checkout-form" action = "/products/checkout" method = "POST">
+            <div class="row">
+                <div id = "payment-errors" class="alert alert-danger hidden"></div>
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label>Name<input type = "text" id= = "name" class="form-control" required></input></label></div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label>Address<input type = "text" id= "address" class="form-control" required></input></label></div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="form-group"><label><input class="form-control" required></input></label></div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label>Card holder Name<input type = "text" id= "card-name" class="form-control" required></input></label></div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label>Credit Card Number<input type = "text" id = "card-number" class="form-control" required></input></label></div>
+                </div>
+                <br/>
+                <div class="col-xs-12">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label>Expiration Month<input id = "card-expiry-month" class="form-control" required></input></label></div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label>Expiration Year<input id = "card-expiry-year" class="form-control" required></input></label></div>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+                <div class="col-xs-12">
+                        <div class="form-group">
+                            <label>CVC<input id = "card-cvc" class="form-control"></input></label></div>
+                </div>
+            </div>
+            <input type = "hidden" name = "_csrf" value = "{{csrfToken}}">
+            <input type = "submit">
+            {{!--<button type = "submit" class="btn btn-success">Buy now</button>--}}
+        </form>
+    </div>
+</div>
+<script type="text/javascript" src="https://js.stripe.com/v2/" defer></script>
+<script type="text/javascript" src="/assets/js/checkout.js" defer ></script>

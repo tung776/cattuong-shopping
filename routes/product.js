@@ -51,4 +51,47 @@ router.get('/shopping-cart',middlewareSecurity.isLoggedIn, function(req, res, ne
     }
 });
 
+router.get('/checkout',middlewareSecurity.isLoggedIn, function(req, res, next){
+    if(req.session.cart) {
+        res.render('products/checkout', {total: req.session.cart.totalPrice, csrfToken:req.csrfToken()});    
+    }
+    else {
+        req.flash("error", "Không tìm thấy sản phẩm nào trong giỏ hàng của bạn");
+        req.flash("message", "Bạn đang muốn mua hàng, hãy chọn sản phẩm trước khi thanh toán");
+        res.redirect("/products");
+    }
+    
+});
+
+router.post('/checkout', middlewareSecurity.isLoggedIn, function(req, res, next){
+    if(!req.session.cart) {
+        req.flash("error", "Không tìm thấy sản phẩm nào trong giỏ hàng của bạn");
+        req.flash("message", "Bạn đang muốn mua hàng, hãy chọn sản phẩm trước khi thanh toán");
+        return res.redirect("/products");    
+    }
+    var cart = new cartModel(req.session.cart);
+    
+    var stripe = require("stripe")(
+      "sk_test_T7vBx12MSmyWvAtXAnTtADyZ"
+    );
+    
+    stripe.charges.create({
+      amount: cart.totalPrice,
+      currency: "vnd",
+      source: req.body.stripeToken, // obtained with Stripe.js
+      description: "Test Charge for soncattuong.com"
+    }, function(err, charge) {
+      // asynchronously called
+      if(err) {
+          req.flash("error", err.message);
+          return res.redirect('/checkout');
+      }
+      else {
+          req.flash("message", "Chúc mừng bạn đã thanh toán thành công. Cám ơn bạn đã sử dụng dịch vụ của chúng tôi");
+          req.session.cart = null;
+          res.redirect("/");
+      }
+    });
+});
+
 module.exports = router;
