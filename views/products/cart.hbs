@@ -1,0 +1,46 @@
+{{# if cart}}
+<div class="row">
+    <div id="ItemsInCart">
+        <ul class = "list-group">
+            {{# each cart.listItemInCart }}
+            
+                <li class="list-group-item">
+                    
+                    <span class="badge">{{this.qty}}</span>
+                    <strong>{{this.product.title}}</strong>
+                    <span class="label label-success">{{this.subTotal}}</span>
+                    <div class="btn-group">
+                        <button class="btn btn-primary btn-xs dropdown-toggle" type = "button" data-toggle = "dropdown">Action <span class="caret"></span> </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href = "#">Minus</a>
+                            </li>
+                            <li>
+                                <a href = "#">Remove All</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            {{/ each }}
+        </ul>
+    </div>
+    
+</div>
+<div class="row">
+    <div id="totalPrice">
+        <strong>Total: {{cart.totalPrice }}</strong>
+    </div>
+</div>
+<hr/>
+<div class="row">
+    <div id="totalPrice">
+        <button type = "button" class="btn btn-success">Checkout</button>
+    </div>
+</div>
+{{ else }}
+<div class="row">
+    <div id="totalPrice">
+        <h2>No items in the Cart</h2>
+    </div>
+</div>
+{{/ if }}
