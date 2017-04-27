@@ -1,1 +1,39 @@
-<h1>profile</h1>
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <h1>User Profile</h1>
+        <hr/>
+        <h2>My Orders</h2>
+
+        {{# each orders }}
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Tên Khách Hàng: {{this.name}}</h3>
+                <p class="panel-title">Địa chỉ: {{this.address}}</p>
+            </div>
+            
+            <div class="panel-body">
+                
+                <ul class="list-group ">
+                    {{# each this.cart.listItemInCart}}
+                    <li class="list-group-item clearfix">
+                        <div class="col-xs-9">
+                                <strong>{{this.product.title}}</strong>
+                                <span class="badge">{{this.qty}}</span>
+                                
+                        </div>
+                            
+                        <div class="col-md-3">
+                                <span class="label label-success pull-center">{{this.subTotal}}</span>
+                        </div>
+                  </li>
+                  {{/ each }}
+                </ul>
+            </div>
+            
+            <div class="panel-footer panel-success">
+                <p class="panel-title panel-success">Tổng tiền: <span class="label label-success pull-center">{{this.cart.totalPrice}}</span></p>
+            </div>
+        </div>
+        {{/ each }}
+    </div>
+</div>

@@ -1,7 +1,8 @@
 const express = require('express');
 var router = express.Router();
 var passport = require('passport');
-var securityMiddle = require('../middleware/security')
+var securityMiddle = require('../middleware/security');
+var orderModel = require("../models/order");
 
 //const userModel = require('../models/user');
 router.get('/signup', function(req, res, next){
@@ -19,13 +20,35 @@ router.get('/signin', function(req, res, next){
 });
 
 router.post('/signin', passport.authenticate('local.signin', {
-    successRedirect: '/users/profile',
+
     failureRedirect: '/users/signin',
     failureFlash: true
-}));
+}), function(req, res, next){
+    if(req.session.oldUrl){
+        // var oldUrl = req.session.oldUrl;
+        // req.session.oldUrl = null;
+        // res.redirect(oldUrl);
+        res.redirect("/products");
+        
+    }
+    else {
+        res.redirect('/users/profile');
+    }
+});
 
 router.get('/profile',securityMiddle.isLoggedIn, function(req, res, next){
-    res.render("users/profile", {error: req.flash('error'), message: req.flash('message')});
+    orderModel.find({user: req.user}, function(err, foundOrders){
+        if(err) {
+            console.log(err);
+        }
+        else {
+            //console.log(JSON.stringify(foundOrders));
+            
+            
+            res.render("users/profile",{orders: foundOrders});
+        }
+    });
+    
 });
 
 router.get('/logout', function(req, res, next){

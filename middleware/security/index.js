@@ -4,8 +4,9 @@ middleware.isLoggedIn = function (req, res, next){
         return next();
     }
     else {
+        req.session.oldUrl =req.url;
         req.flash("error", "Bạn cần đăng nhập trước khi sử dụng chức năng này");
-        res.redirect('/');
+        res.redirect('/users/signin');
     }
 };
 
