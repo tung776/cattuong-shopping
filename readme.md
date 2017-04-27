@@ -1,4 +1,4 @@
-This application is very simple ecomerce based on nodejs, express, mondodb and boostrap
+This application is very simple ecommerce based on nodejs, express, mondodb and boostrap
 
 Feature:
     1.  List of Products
