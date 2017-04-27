@@ -83,8 +83,9 @@ router.post('/checkout', middlewareSecurity.isLoggedIn, function(req, res, next)
     }, function(err, charge) {
       // asynchronously called
       if(err) {
-          req.flash("error", err.message);
-          return res.redirect('/checkout');
+          req.flash("error", "Đã có lỗi tron giao dịch");
+          req.flash("error", err);
+          return res.redirect('/products/checkout');
       }
       else {
           req.flash("message", "Chúc mừng bạn đã thanh toán thành công. Cám ơn bạn đã sử dụng dịch vụ của chúng tôi");
