@@ -37,9 +37,42 @@ router.get('/add-to-cart/:productId',middlewareSecurity.isLoggedIn, function(req
             cart.add(foundProduct);
             req.session.cart = cart;
             req.flash('message', 'đã thêm '+foundProduct.title + 'vào giỏ hàng thành công');
-            res.redirect('/products');
+            console.log(req.url);
+            res.redirect('back');
         }
     });
+});
+
+router.get('/minus-to-cart/:productId',middlewareSecurity.isLoggedIn, function(req, res, next) {
+    var productId = req.params.productId;
+    if(!req.session.cart) {
+        req.flash("error", "không tìm thấy sản phẩm trong giỏ hàng");
+        return res.redirect('/products');
+    }
+    var cart = new cartModel(req.session.cart);
+    productModel.findById(productId, function(err, foundProduct){
+        if(err) {
+            console.log(err);
+            req.flash('error', err);
+            res.redirect('back');
+        }
+        else {
+            cart.minus(foundProduct);
+            req.session.cart = cart;
+            req.flash('message', 'đã bỏ bớt '+foundProduct.title + 'ra khỏi giỏ hàng thành công');
+            res.redirect("back");
+        }
+    });
+});
+
+router.get('/remove-all-to-cart/:productId',middlewareSecurity.isLoggedIn, function(req, res, next) {
+    var productId = req.params.productId;
+    if(!req.session.cart) {
+        req.flash("error", "không tìm thấy sản phẩm trong giỏ hàng");
+        return res.redirect('/products');
+    }
+    req.session.cart = null;
+    res.redirect("/products");
 });
 
 router.get('/shopping-cart',middlewareSecurity.isLoggedIn, function(req, res, next){

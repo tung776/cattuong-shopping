@@ -22,10 +22,13 @@
                             <button class="btn btn-primary btn-xs dropdown-toggle" type = "button" data-toggle = "dropdown">Action <span class="caret"></span> </button>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href = "#">Minus</a>
+                                    <a href = "/products/add-to-cart/{{this.product._id}}">Add</a>
                                 </li>
                                 <li>
-                                    <a href = "#">Remove All</a>
+                                    <a href = "/products/minus-to-cart/{{this.product._id}}">Minus</a>
+                                </li>
+                                <li>
+                                    <a href = "/products/remove-all-to-cart/{{this.product._id}}">Remove All</a>
                                 </li>
                             </ul>
 
