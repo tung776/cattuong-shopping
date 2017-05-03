@@ -9,6 +9,9 @@ schema.methods.encryptPassword = function(password){
 };
 
 schema.methods.validPassword = function(password) {
+    console.log(password);
+    console.log(this.password);
+    console.log(bcrypt.compareSync(password, this.password));
 
     return bcrypt.compareSync(password, this.password);
 };

@@ -6,17 +6,29 @@ var middlewareSecurity = require('../middleware/security');
 var orderModel = require('../models/order');
 
 router.get('/', function(req, res, next){
-    productModel.find({},function(err, foundProducts){
-        if(err) {
-            console.log(err);
-        }
-        else {
+    // productModel.find({},function(err, foundProducts){
+    //     if(err) {
+    //         console.log(err);
+    //     }
+    //     else {
+    //         res.render('products/index', {
+    //             title: "products",
+    //             products: foundProducts
+    //         });
+    //     }
+    // });
+    
+    productModel.find({}).then(
+        foundProduct=>{
             res.render('products/index', {
                 title: "products",
-                products: foundProducts
+                products:foundProduct
             });
+        },
+        err=>{
+            console.log(err);
         }
-    });
+    );
     
 });
 
@@ -27,20 +39,34 @@ router.post("/", function(req, res, next){
 router.get('/add-to-cart/:productId',middlewareSecurity.isLoggedIn, function(req, res, next) {
     var productId = req.params.productId;
     var cart = new cartModel(req.session.cart ? req.session.cart : []);
-    productModel.findById(productId, function(err, foundProduct){
-        if(err) {
-            console.log(err);
-            req.flash('error', err);
-            res.redirect('/products');
-        }
-        else {
+    // productModel.findById(productId, function(err, foundProduct){
+    //     if(err) {
+    //         console.log(err);
+    //         req.flash('error', err);
+    //         res.redirect('/products');
+    //     }
+    //     else {
+    //         cart.add(foundProduct);
+    //         req.session.cart = cart;
+    //         req.flash('message', 'đã thêm '+foundProduct.title + 'vào giỏ hàng thành công');
+    //         console.log(req.url);
+    //         res.redirect('back');
+    //     }
+    // });
+    productModel.findById(productId).then(
+        foundProduct=>{
             cart.add(foundProduct);
             req.session.cart = cart;
             req.flash('message', 'đã thêm '+foundProduct.title + 'vào giỏ hàng thành công');
             console.log(req.url);
             res.redirect('back');
+        },
+        err=>{
+            console.log(err);
+            req.flash('error', err);
+            res.redirect('/products');
         }
-    });
+    );
 });
 
 router.get('/minus-to-cart/:productId',middlewareSecurity.isLoggedIn, function(req, res, next) {
@@ -66,7 +92,6 @@ router.get('/minus-to-cart/:productId',middlewareSecurity.isLoggedIn, function(r
 });
 
 router.get('/remove-all-to-cart/:productId',middlewareSecurity.isLoggedIn, function(req, res, next) {
-    var productId = req.params.productId;
     if(!req.session.cart) {
         req.flash("error", "không tìm thấy sản phẩm trong giỏ hàng");
         return res.redirect('/products');
@@ -140,8 +165,7 @@ router.post('/checkout', middlewareSecurity.isLoggedIn, function(req, res, next)
                 req.session.cart = null;
                 res.redirect("/");
               }
-          });
-          
+        });
       }
     });
 });

@@ -29,8 +29,6 @@ module.exports = function(oldCart) {
             storedItem.qty --;
         }
         this.caculate();
-        
-        
     };
     
     this.add = function(product){
@@ -42,10 +40,7 @@ module.exports = function(oldCart) {
             this.listItemInCart.push(storedItem);
         }
         else {
-            
             storedItem.qty ++;
-            console.log("added");
-            console.log(storedItem.subTotal);
         }
         this.caculate();
     };
@@ -60,5 +55,5 @@ module.exports = function(oldCart) {
         }
         this.totalPrice = totalPrice;
         this.totalQty = qty;
-    }
+    };
 };

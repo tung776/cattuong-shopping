@@ -45,7 +45,7 @@ passport.use("local.signup", new passportLocal({
         var newUser = new userModel({
             email: email
         });
-        newUser.password = newUser.encryptPassword(newUser.password);
+        newUser.password = newUser.encryptPassword(req.body.password);
         newUser.save(function(err, result){
             if(err) {
                 return done(err);
@@ -90,8 +90,8 @@ passport.use("local.signin", new passportLocal({
             return done(null, false, 
                     req.flash('error', "mật khẩu không đúng"));
         }
-        console.log(user)
-;        return done(null, user);
+        console.log(user);
+        return done(null, user);
 
         
     });
